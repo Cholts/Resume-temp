@@ -4,47 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charles Schwebs - Digital Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-color: #0056b3;
-            --secondary-color: #f4f7f6;
-            --text-color: #333;
-            --light-text-color: #666;
-            --white-color: #fff;
-            --border-color: #ddd;
-            --shadow-color: rgba(0, 0, 0, 0.1);
+            --primary-color: #795548; /* Muted Brown */
+            --secondary-color: #efebe9; /* Lighter Brown/Beige */
+            --text-color: #3e2723; /* Darker Brown */
+            --light-text-color: #6d4c41; /* Medium Brown */
+            --white-color: #fcfaf8; /* Off-white */
+            --border-color: #be998e; /* Dusty Brown */
+            --shadow-color: rgba(0, 0, 0, 0.15);
+            --accent-color: #a1887f; /* Slightly lighter muted brown */
+            --header-bg: #5d4037; /* Darker Muted Brown for header */
         }
 
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Merriweather', serif;
             margin: 0;
             padding: 0;
             background-color: var(--secondary-color);
             color: var(--text-color);
-            line-height: 1.6;
+            line-height: 1.7;
             scroll-behavior: smooth;
         }
 
         header {
-            background-color: var(--primary-color);
+            background-color: var(--header-bg);
             color: var(--white-color);
-            padding: 1rem 0;
+            padding: 1.2rem 0;
             text-align: center;
-            box-shadow: 0 2px 5px var(--shadow-color);
+            box-shadow: 0 4px 8px var(--shadow-color);
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            border-bottom: 3px solid var(--accent-color);
         }
 
         header h1 {
             margin: 0;
-            font-size: 2.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8rem;
+            letter-spacing: 1.5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         nav {
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         nav ul {
@@ -57,36 +63,41 @@
         }
 
         nav ul li {
-            margin: 0 15px;
+            margin: 0 18px;
         }
 
         nav ul li a {
             color: var(--white-color);
             text-decoration: none;
             font-weight: bold;
-            padding: 5px 10px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            border-radius: 5px;
+            padding: 8px 15px;
+            transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
         }
 
         nav ul li a:hover,
         nav ul li a.active {
             background-color: var(--white-color);
             color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
         .container {
             max-width: 1200px;
-            margin: 100px auto 20px auto; /* Adjust margin-top for fixed header */
-            padding: 20px;
+            margin: 140px auto 30px auto; /* Adjust margin-top for fixed header */
+            padding: 30px;
             background-color: var(--white-color);
-            border-radius: 8px;
-            box-shadow: 0 0 15px var(--shadow-color);
+            border-radius: 12px;
+            box-shadow: 0 0 20px var(--shadow-color);
+            border: 1px solid var(--border-color);
         }
 
         section {
-            padding: 40px 0;
-            border-bottom: 1px solid var(--border-color);
+            padding: 50px 0;
+            border-bottom: 1px dashed var(--border-color);
         }
 
         section:last-of-type {
@@ -94,63 +105,108 @@
         }
 
         h2 {
+            font-family: 'Playfair Display', serif;
             color: var(--primary-color);
             text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
+            margin-bottom: 40px;
+            font-size: 2.8rem;
             position: relative;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         h2::after {
             content: '';
             display: block;
-            width: 60px;
-            height: 3px;
+            width: 80px;
+            height: 4px;
             background-color: var(--primary-color);
-            margin: 10px auto 0;
+            margin: 15px auto 0;
+            border-radius: 2px;
         }
 
         .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item {
-            margin-bottom: 25px;
-            padding: 20px;
+            margin-bottom: 35px;
+            padding: 25px;
             background-color: var(--secondary-color);
-            border-left: 5px solid var(--primary-color);
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
         .profile-summary:hover, .education-item:hover, .experience-item:hover, .skill-category:hover, .project-item:hover, .award-item:hover, .volunteer-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
 
         .profile-summary p {
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            margin-bottom: 15px;
+            font-size: 1.15rem;
+            line-height: 1.8;
+            color: var(--light-text-color);
         }
 
         .education-item h3, .experience-item h3, .project-item h3 {
             margin-top: 0;
-            color: var(--primary-color);
-            font-size: 1.4rem;
+            color: var(--text-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
         }
 
         .education-item p, .experience-item p, .project-item p {
-            margin: 5px 0;
+            margin: 8px 0;
             color: var(--light-text-color);
+            font-size: 1.05rem;
+        }
+
+        .education-item h4 {
+            color: var(--primary-color);
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+            border-bottom: 1px dotted var(--accent-color);
+            padding-bottom: 5px;
+        }
+
+        .education-item ul, .experience-item ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        .education-item ul li, .experience-item ul li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 8px;
+            color: var(--light-text-color);
+        }
+
+        .education-item ul li::before, .experience-item ul li::before {
+            content: '⛏️'; /* Archaeology themed bullet */
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            line-height: 1;
         }
 
         .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
         }
 
         .skill-category h4 {
             margin-top: 0;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            margin-bottom: 10px;
+            color: var(--text-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 5px;
         }
 
         .skill-category ul {
@@ -159,23 +215,26 @@
         }
 
         .skill-category ul li {
-            margin-bottom: 8px;
-            padding-left: 15px;
+            margin-bottom: 10px;
+            padding-left: 30px;
             position: relative;
+            color: var(--light-text-color);
         }
 
         .skill-category ul li::before {
-            content: '•';
+            content: '🏛️'; /* Archaeology themed bullet */
             color: var(--primary-color);
             font-weight: bold;
             position: absolute;
             left: 0;
+            font-size: 1.3rem;
         }
 
         .contact-info {
             text-align: center;
-            margin-top: 30px;
-            font-size: 1.1rem;
+            margin-top: 40px;
+            font-size: 1.2rem;
+            line-height: 2;
         }
 
         .contact-info p {
@@ -186,144 +245,213 @@
             color: var(--primary-color);
             text-decoration: none;
             font-weight: bold;
+            transition: color 0.3s ease, text-decoration 0.3s ease;
         }
 
         .contact-info a:hover {
+            color: var(--text-color);
             text-decoration: underline;
         }
 
         .social-links {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .social-links a {
             display: inline-block;
-            margin: 0 10px;
+            margin: 0 15px;
             color: var(--primary-color);
-            font-size: 2.5rem;
-            transition: transform 0.3s ease;
+            font-size: 3rem;
+            transition: transform 0.4s ease, color 0.4s ease;
         }
 
         .social-links a:hover {
-            transform: scale(1.1);
+            transform: scale(1.15) rotate(5deg);
+            color: var(--text-color);
         }
 
-        .languages-list {
+        .languages-list, .interests-list {
             list-style: none;
             padding: 0;
             text-align: center;
-        }
-
-        .languages-list li {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: var(--white-color);
-            padding: 8px 15px;
-            margin: 5px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-
-        .interests-list {
-            list-style: none;
-            padding: 0;
+            margin-top: 20px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
         }
 
-        .interests-list li {
-            background-color: #e0eaff;
-            color: var(--primary-color);
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.95rem;
+        .languages-list li, .interests-list li {
+            background-color: var(--accent-color);
+            color: var(--white-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .languages-list li:hover, .interests-list li:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-2px);
         }
 
         footer {
             text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            background-color: var(--primary-color);
+            padding: 25px;
+            margin-top: 40px;
+            background-color: var(--header-bg);
             color: var(--white-color);
-            font-size: 0.9rem;
-            box-shadow: 0 -2px 5px var(--shadow-color);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-
-            nav ul {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            nav ul li {
-                margin: 5px 0;
-            }
-
-            .container {
-                margin-top: 120px auto 20px auto;
-                padding: 15px;
-            }
-
-            h2 {
-                font-size: 1.8rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 0.8rem 0;
-            }
-
-            header h1 {
-                font-size: 1.8rem;
-            }
-
-            nav ul li a {
-                padding: 3px 8px;
-            }
-
-            .container {
-                padding: 10px;
-            }
-
-            h2 {
-                font-size: 1.6rem;
-            }
+            font-size: 0.95rem;
+            box-shadow: 0 -3px 6px var(--shadow-color);
+            border-top: 3px solid var(--accent-color);
         }
 
         /* Page specific content hiding */
         .page-content {
             display: none;
+            animation: fadeIn 0.8s ease-out;
         }
         .page-content.active {
             display: block;
         }
 
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Specific styles for "My Services" page */
         #my-services .service-description {
-            padding: 20px;
+            padding: 30px;
             background-color: var(--secondary-color);
-            border-left: 5px solid var(--primary-color);
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-            margin-bottom: 20px;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
         }
 
         #my-services .service-description h3 {
-            color: var(--primary-color);
+            color: var(--text-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
             margin-top: 0;
+            border-bottom: 1px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        #my-services .service-description p {
+            color: var(--light-text-color);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+        #my-services .service-description ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        #my-services .service-description ul li {
+            position: relative;
+            padding-left: 35px;
+            margin-bottom: 12px;
+            color: var(--light-text-color);
+            font-size: 1.05rem;
+        }
+        #my-services .service-description ul li::before {
+            content: '✨'; /* Sparkle bullet */
+            position: absolute;
+            left: 0;
+            font-size: 1.5rem;
+            line-height: 1;
+            color: var(--primary-color);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+            nav ul li {
+                margin: 0 12px;
+            }
+            nav ul li a {
+                padding: 6px 12px;
+            }
+            .container {
+                margin-top: 130px auto 20px auto;
+                padding: 25px;
+            }
+            h2 {
+                font-size: 2.5rem;
+            }
+            .profile-summary p {
+                font-size: 1.05rem;
+            }
+            .skills-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1rem 0;
+            }
+            header h1 {
+                font-size: 2.2rem;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 8px;
+                margin-top: 10px;
+            }
+            nav ul li {
+                margin: 0;
+            }
+            nav ul li a {
+                display: block;
+                width: fit-content;
+                margin: 0 auto;
+            }
+            .container {
+                margin-top: 200px auto 20px auto; /* More space for stacked nav */
+                padding: 20px;
+            }
+            h2 {
+                font-size: 2.2rem;
+                margin-bottom: 30px;
+            }
+            .education-item h3, .experience-item h3, .project-item h3 {
+                font-size: 1.5rem;
+            }
+            .skill-category h4 {
+                font-size: 1.3rem;
+            }
+            .social-links a {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 15px;
+                margin-top: 180px auto 15px auto;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, #my-services .service-description {
+                padding: 18px;
+            }
+            .education-item ul li::before, .experience-item ul li::before, .skill-category ul li::before, #my-services .service-description ul li::before {
+                font-size: 1rem;
+            }
+            .contact-info {
+                font-size: 1rem;
+            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -351,7 +479,7 @@
         <section id="home" class="page-content active">
             <h2>Professional Summary</h2>
             <div class="profile-summary">
-                [cite_start]<p>Innovative and versatile professional with a strong background in archaeology, AI integration, curation, history, and conservation[cite: 2]. [cite_start]Passionate about the intersection of technology and historical studies, with a deep interest in Black Box AI, LiDAR, forensics, geo-forensics, and Structure from Motion (SfM) technology[cite: 3]. [cite_start]Continuously developing AI solutions for publishing, digital humanities, and archaeological analysis[cite: 4]. [cite_start]Possesses leadership experience, technical proficiency, and a passion for bridging historical studies with modern technology[cite: 5]. [cite_start]Skilled in independent research, team collaboration, and project management[cite: 6]. [cite_start]Seeking opportunities to further develop expertise in archaeology, AI, and digital humanities while refining leadership abilities[cite: 6].</p>
+                <p>Innovative and versatile professional with a strong background in archaeology, AI integration, curation, history, and conservation. Passionate about the intersection of technology and historical studies, with a deep interest in Black Box AI, LiDAR, forensics, geo-forensics, and Structure from Motion (SfM) technology. Continuously developing AI solutions for publishing, digital humanities, and archaeological analysis. Possesses leadership experience, technical proficiency, and a passion for bridging historical studies with modern technology. Skilled in independent research, team collaboration, and project management. Seeking opportunities to further develop expertise in archaeology, AI, and digital humanities while refining leadership abilities.</p>
             </div>
         </section>
 
@@ -359,15 +487,15 @@
             <h2>Education</h2>
             <div class="education-item">
                 <h3>The American University of Rome, Rome, Italy</h3>
-                <p><strong>Bachelor of Arts in Archaeology</strong> | [cite_start]Minor: Classics [cite: 7]</p>
+                <p><strong>Bachelor of Arts in Archaeology</strong> | Minor: Classics [cite: 7]</p>
                 [cite_start]<p>GPA: 3.5 [cite: 8]</p>
                 [cite_start]<p>Expected Graduation: May 2025 [cite: 8]</p>
-                <p>Dean's List</p>
+                [cite_start]<p>Dean's List [cite: 8]</p>
                 <h4>Relevant Courses:</h4>
                 <ul>
-                    [cite_start]<li><strong>Archaeology & History:</strong> Ancient Material Culture, Egyptian Art & Archaeology, Great Kingdoms of the Ancient Near East, Theoretical Approaches to Archaeology, Christianity and the Roman Empire (100-425 AD), Investigating Archaeology: Methods & Techniques, British Museum and Roman London Field Trip, Roman Army, Sacred Space: Religious Architecture of Rome[cite: 8].</li>
-                    [cite_start]<li><strong>Museum & Conservation Studies:</strong> Conservation and Restoration Ethics, Museum Studies (worked with artifacts from AMP 2023)[cite: 9].</li>
-                    [cite_start]<li><strong>Technical & Research Skills:</strong> GIS & Remote Sensing in Archaeology, Bodies and Burials, Concepts in Biology, Literature and Composition, Writing from Theory[cite: 10].</li>
+                    [cite_start]<li><strong>Archaeology & History:</strong> Ancient Material Culture, Egyptian Art & Archaeology, Great Kingdoms of the Ancient Near East, Theoretical Approaches to Archaeology, Christianity and the Roman Empire (100-425 AD), Investigating Archaeology: Methods & Techniques, British Museum and Roman London Field Trip, Roman Army, Sacred Space: Religious Architecture of Rome. [cite: 9]</li>
+                    [cite_start]<li><strong>Museum & Conservation Studies:</strong> Conservation and Restoration Ethics, Museum Studies (worked with artifacts from AMP 2023). [cite: 9]</li>
+                    [cite_start]<li><strong>Technical & Research Skills:</strong> GIS & Remote Sensing in Archaeology, Bodies and Burials, Concepts in Biology, Literature and Composition, Writing from Theory. [cite: 10]</li>
                 </ul>
                 <h4>Published Courses (Spring 2025):</h4>
                 <ul>
@@ -393,62 +521,62 @@
             <h2>Professional Experience</h2>
             <div class="experience-item">
                 <h3>L'Erma di Bretschneider (Rome, Italy)</h3>
-                <p><strong>Tech Support & AI Integration Specialist</strong> (Current Role)</p>
+                [cite_start]<p><strong>Tech Support & AI Integration Specialist</strong> (Current Role) [cite: 1]</p>
                 <ul>
-                    [cite_start]<li>Assisting in AI integration for digital publishing and editorial processes[cite: 26].</li>
-                    [cite_start]<li>Supporting innovation in content management and sales[cite: 26].</li>
-                    [cite_start]<li>Developing AI projects to streamline publishing workflows[cite: 27].</li>
+                    [cite_start]<li>Assisting in AI integration for digital publishing and editorial processes. [cite: 26]</li>
+                    [cite_start]<li>Supporting innovation in content management and sales. [cite: 26]</li>
+                    [cite_start]<li>Developing AI projects to streamline publishing workflows. [cite: 27]</li>
                 </ul>
             </div>
             <div class="experience-item">
                 <h3>The American University of Rome</h3>
                 <p><strong>Peer Mentor Leader</strong></p>
                 <ul>
-                    [cite_start]<li>Guided 20+ incoming freshmen through academic and cultural transitions[cite: 28].</li>
-                    [cite_start]<li>Led field trips to historical sites[cite: 28].</li>
-                    [cite_start]<li>Assisted students with presentation and research techniques[cite: 28].</li>
-                    [cite_start]<li>Facilitated conflict resolution between students and faculty[cite: 29].</li>
+                    [cite_start]<li>Guided 20+ incoming freshmen through academic and cultural transitions. [cite: 28]</li>
+                    [cite_start]<li>Led field trips to historical sites. [cite: 28]</li>
+                    [cite_start]<li>Assisted students with presentation and research techniques. [cite: 28]</li>
+                    [cite_start]<li>Facilitated conflict resolution between students and faculty. [cite: 29]</li>
                 </ul>
                 <p><strong>Librarian</strong></p>
                 <ul>
-                    [cite_start]<li>Managed daily library operations, including closing procedures[cite: 29].</li>
-                    [cite_start]<li>Implemented AI-driven solutions for cataloging and automation[cite: 29].</li>
+                    [cite_start]<li>Managed daily library operations, including closing procedures. [cite: 29]</li>
+                    [cite_start]<li>Implemented AI-driven solutions for cataloging and automation. [cite: 29]</li>
                 </ul>
             </div>
             <div class="experience-item">
                 <h3>Waleska Splash Pad, Cherokee County Recreation Dept. (Waleska, GA, USA)</h3>
                 <p><strong>Lifeguard</strong></p>
                 <ul>
-                    [cite_start]<li>Independently managed opening/closing procedures[cite: 31].</li>
-                    [cite_start]<li>Maintained safety and equipment standards[cite: 31].</li>
-                    [cite_start]<li>Provided supervision for children and families[cite: 32].</li>
+                    [cite_start]<li>Independently managed opening/closing procedures. [cite: 31]</li>
+                    [cite_start]<li>Maintained safety and equipment standards. [cite: 31]</li>
+                    [cite_start]<li>Provided supervision for children and families. [cite: 32]</li>
                 </ul>
             </div>
             <div class="experience-item">
                 <h3>Mountain View School, Marietta, GA, USA</h3>
                 <p><strong>Camp Counselor</strong></p>
                 <ul>
-                    [cite_start]<li>Supervised children (ages 2-8)[cite: 33].</li>
-                    [cite_start]<li>Prepared and executed curriculum-based activities[cite: 33].</li>
-                    [cite_start]<li>Ensured a safe and engaging learning environment[cite: 33].</li>
+                    [cite_start]<li>Supervised children (ages 2-8). [cite: 33]</li>
+                    [cite_start]<li>Prepared and executed curriculum-based activities. [cite: 33]</li>
+                    [cite_start]<li>Ensured a safe and engaging learning environment. [cite: 33]</li>
                 </ul>
             </div>
             <div class="experience-item">
                 <h3>Lake Arrowhead Yacht & Golf Club (Waleska, GA, USA)</h3>
                 <p><strong>Golf Cart Attendant</strong></p>
                 <ul>
-                    [cite_start]<li>Managed fast-paced golf cart operations for club members[cite: 34].</li>
-                    [cite_start]<li>Maintained reservation systems for cart availability[cite: 34].</li>
+                    [cite_start]<li>Managed fast-paced golf cart operations for club members. [cite: 34]</li>
+                    [cite_start]<li>Maintained reservation systems for cart availability. [cite: 34]</li>
                 </ul>
             </div>
             <h2>Archaeological Experience</h2>
             <div class="experience-item">
                 <h3>Aventino Minor Project, Rome (Summer 2023, Internship)</h3>
                 <ul>
-                    [cite_start]<li>Conducted excavation and survey duties[cite: 15].</li>
-                    [cite_start]<li>Specialized in stabilizing ancient metal artifacts[cite: 15].</li>
-                    [cite_start]<li>Assisted in post-excavation artifact handling and data collection[cite: 16].</li>
-                    [cite_start]<li>Contributed to the development of an artifact cataloging system[cite: 16].</li>
+                    [cite_start]<li>Conducted excavation and survey duties. [cite: 15]</li>
+                    [cite_start]<li>Specialized in stabilizing ancient metal artifacts. [cite: 15]</li>
+                    [cite_start]<li>Assisted in post-excavation artifact handling and data collection. [cite: 16]</li>
+                    [cite_start]<li>Contributed to the development of an artifact cataloging system. [cite: 16]</li>
                 </ul>
             </div>
         </section>
@@ -459,43 +587,43 @@
                 <div class="skill-category">
                     <h4>AI & Data Science</h4>
                     <ul>
-                        [cite_start]<li>AI Development [cite: 20]</li>
-                        [cite_start]<li>Data Annotation (NLP) [cite: 20]</li>
-                        [cite_start]<li>Predictive Modeling [cite: 20]</li>
-                        [cite_start]<li>Pattern Recognition [cite: 20]</li>
-                        [cite_start]<li>Data Mining [cite: 20]</li>
-                        [cite_start]<li>Black Box AI [cite: 20]</li>
+                        [cite_start]<li>AI Development [cite: 21]</li>
+                        [cite_start]<li>Data Annotation (NLP) [cite: 21]</li>
+                        [cite_start]<li>Predictive Modeling [cite: 21]</li>
+                        [cite_start]<li>Pattern Recognition [cite: 21]</li>
+                        [cite_start]<li>Data Mining [cite: 21]</li>
+                        [cite_start]<li>Black Box AI [cite: 21]</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h4>Digital Archaeology & Visualization</h4>
                     <ul>
-                        [cite_start]<li>GIS (Beginner) [cite: 21]</li>
-                        [cite_start]<li>Reality Capture (Intermediate) [cite: 21]</li>
-                        [cite_start]<li>Photogrammetry (Amateur) [cite: 21]</li>
-                        [cite_start]<li>LiDAR [cite: 21]</li>
-                        [cite_start]<li>Structure from Motion (SfM) [cite: 21]</li>
+                        [cite_start]<li>GIS (Beginner) [cite: 22]</li>
+                        [cite_start]<li>Reality Capture (Intermediate) [cite: 22]</li>
+                        [cite_start]<li>Photogrammetry (Amateur) [cite: 22]</li>
+                        [cite_start]<li>LiDAR [cite: 22]</li>
+                        [cite_start]<li>Structure from Motion (SfM) [cite: 22]</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h4>Forensics & Geo-Forensics</h4>
                     <ul>
-                        [cite_start]<li>Analytical techniques for historical and modern investigative research [cite: 22]</li>
+                        [cite_start]<li>Analytical techniques for historical and modern investigative research. [cite: 23]</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h4>Publishing & CMS</h4>
                     <ul>
-                        [cite_start]<li>ONIX XML (2.1, 3.0-3.2) [cite: 23]</li>
-                        [cite_start]<li>CMS for L'Erma di Bretschneider [cite: 23]</li>
-                        [cite_start]<li>SmallPDF [cite: 23]</li>
+                        [cite_start]<li>ONIX XML (2.1, 3.0-3.2) [cite: 24]</li>
+                        [cite_start]<li>CMS for L'Erma di Bretschneider [cite: 24]</li>
+                        [cite_start]<li>SmallPDF [cite: 24]</li>
                     </ul>
                 </div>
                 <div class="skill-category">
                     <h4>AI & Content Editing</h4>
                     <ul>
-                        [cite_start]<li>Kawing (Expert in subtitling and translation timing) [cite: 24]</li>
-                        [cite_start]<li>Aialysa's Chatbook & Chaireader (Development & Editing) [cite: 24]</li>
+                        [cite_start]<li>Kawing (Expert in subtitling and translation timing) [cite: 25]</li>
+                        [cite_start]<li>Aialysa's Chatbook & Chaireader (Development & Editing) [cite: 25]</li>
                     </ul>
                 </div>
                 <div class="skill-category">
@@ -507,8 +635,8 @@
             </div>
             <h2>Languages</h2>
             <ul class="languages-list">
-                <li>English: Native</li>
-                <li>Italian: Conversational</li>
+                [cite_start]<li>English: Native [cite: 38]</li>
+                [cite_start]<li>Italian: Conversational [cite: 38]</li>
             </ul>
         </section>
 
@@ -516,19 +644,19 @@
             <h2>Publishing & Editorial Work</h2>
             <div class="project-item">
                 <h3>Codex, Vol. 5 (2024)</h3>
-                [cite_start]<p>Error checking & review[cite: 17].</p>
+                [cite_start]<p>Error checking & review. [cite: 17]</p>
             </div>
             <div class="project-item">
                 <h3>Orientalia Antiqua et Nova, Vol. 1 (2024)</h3>
-                [cite_start]<p>Assisted in editing[cite: 18].</p>
+                [cite_start]<p>Assisted in editing. [cite: 18]</p>
             </div>
             <div class="project-item">
                 <h3>Foro Romano Palatino - Scavi e ricerche, Vol. I (2023)</h3>
-                [cite_start]<p>Editorial review[cite: 19].</p>
+                [cite_start]<p>Editorial review. [cite: 19]</p>
             </div>
             <div class="project-item">
                 <h3>ENG Secondary Roads of Ancient Italy: Rome, Monuments, Territory</h3>
-                [cite_start]<p>Assisted in production[cite: 19].</p>
+                [cite_start]<p>Assisted in production. [cite: 19]</p>
             </div>
         </section>
 
@@ -536,11 +664,11 @@
             <h2>Awards & Scholarships</h2>
             <div class="award-item">
                 <h3>Global Scholar Scholarship</h3>
-                [cite_start]<p>Merit-based award for maintaining a continuous GPA of 3.5+[cite: 14].</p>
+                [cite_start]<p>Merit-based award for maintaining a continuous GPA of 3.5+. [cite: 14]</p>
             </div>
             <div class="award-item">
                 <h3>4-H Program (2015-2017)</h3>
-                [cite_start]<p>Competed in marksmanship, reaching state championships annually; qualified for the 4-H Air Rifle National Championships twice[cite: 14].</p>
+                [cite_start]<p>Competed in marksmanship, reaching state championships annually; qualified for the 4-H Air Rifle National Championships twice. [cite: 14]</p>
             </div>
         </section>
 
@@ -548,23 +676,23 @@
             <h2>Volunteer Experience</h2>
             <div class="volunteer-item">
                 <h3>Alpha Equestrian Center</h3>
-                [cite_start]<p>Assisted in special needs summer equestrian programs[cite: 35].</p>
+                [cite_start]<p>Assisted in special needs summer equestrian programs. [cite: 35]</p>
             </div>
             <div class="volunteer-item">
                 <h3>Waleska Stables</h3>
-                [cite_start]<p>Led horse riding lessons and arts & crafts for children (ages 6-10)[cite: 36].</p>
+                [cite_start]<p>Led horse riding lessons and arts & crafts for children (ages 6-10). [cite: 36]</p>
             </div>
             <div class="volunteer-item">
                 <h3>Mountain View Church</h3>
-                [cite_start]<p>Volunteered in children's programs (ages 1-10) for camps, festivals, and educational events[cite: 37].</p>
+                [cite_start]<p>Volunteered in children's programs (ages 1-10) for camps, festivals, and educational events. [cite: 37]</p>
             </div>
             <div class="volunteer-item">
                 <h3>SL Team (Servant Leadership Team)</h3>
-                [cite_start]<p>Selected as a senior mentor to assist teachers and train new team members[cite: 38].</p>
+                [cite_start]<p>Selected as a senior mentor to assist teachers and train new team members. [cite: 37]</p>
             </div>
             <div class="volunteer-item">
                 <h3>University Student Committee</h3>
-                [cite_start]<p>Youngest student chosen to participate in selecting the new university provost[cite: 38].</p>
+                [cite_start]<p>Youngest student chosen to participate in selecting the new university provost. [cite: 38]</p>
             </div>
         </section>
 
@@ -608,13 +736,13 @@
         </section>
 
         <section id="contact" class="page-content">
-            <h2>Contact Me</h2>
+            <h2>Connect With Me</h2>
             <div class="contact-info">
-                [cite_start]<p>Phone: <a href="tel:+393445766915">+39 344 576 6915</a> [cite: 1]</p>
-                [cite_start]<p>Email: <a href="mailto:Cholts2003@gmail.com">Cholts2003@gmail.com</a> [cite: 1]</p>
+                <p>Phone: <a href="tel:+393445766915">+39 344 576 6915</a></p>
+                <p>Email: <a href="mailto:Cholts2003@gmail.com">Cholts2003@gmail.com</a></p>
             </div>
             <div class="social-links">
-                <a href="https://www.linkedin.com/in/charles-schwebs-3464182b4/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                <a href="https://www.linkedin.com/in/charles-schwebs-3464182b4/" target="_blank" title="LinkedIn Profile"><i class="fab fa-linkedin-in"></i></a>
             </div>
         </section>
     </div>
@@ -628,45 +756,60 @@
             const navLinks = document.querySelectorAll('.nav-link');
             const pageContents = document.querySelectorAll('.page-content');
 
+            const activatePage = (pageId) => {
+                // Remove active class from all nav links
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                // Add active class to the corresponding nav link
+                const currentNavLink = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+                if (currentNavLink) {
+                    currentNavLink.classList.add('active');
+                }
+
+                // Hide all page contents
+                pageContents.forEach(page => page.classList.remove('active'));
+
+                // Show the content corresponding to the clicked link
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                }
+
+                // Update URL hash
+                window.history.pushState(null, '', `#${pageId}`);
+
+                // Scroll to the top of the container or section
+                window.scrollTo({
+                    top: document.querySelector('.container').offsetTop - 120, // Adjusted for fixed header and aesthetic spacing
+                    behavior: 'smooth'
+                });
+            };
+
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
-
-                    // Remove active class from all nav links
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    // Add active class to the clicked nav link
-                    link.classList.add('active');
-
-                    // Hide all page contents
-                    pageContents.forEach(page => page.classList.remove('active'));
-
-                    // Show the content corresponding to the clicked link
-                    const targetPageId = link.dataset.page;
-                    const targetPage = document.getElementById(targetPageId);
-                    if (targetPage) {
-                        targetPage.classList.add('active');
-                    }
-
-                    // Scroll to the top of the container or section
-                    window.scrollTo({
-                        top: document.querySelector('.container').offsetTop - 80, // Adjust for fixed header
-                        behavior: 'smooth'
-                    });
+                    activatePage(link.dataset.page);
                 });
             });
 
             // Handle initial hash in URL for direct linking
             const initialHash = window.location.hash.substring(1);
             if (initialHash) {
-                const initialNavLink = document.querySelector(`.nav-link[data-page="${initialHash}"]`);
-                if (initialNavLink) {
-                    initialNavLink.click();
-                }
+                activatePage(initialHash);
             } else {
                 // Default to home page if no hash
-                document.getElementById('home').classList.add('active');
-                document.querySelector('.nav-link[data-page="home"]').classList.add('active');
+                activatePage('home');
             }
+
+            // Optional: Smooth scroll for internal links not handled by the page switcher
+            document.querySelectorAll('a[href^="#"]:not(.nav-link)').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
         });
     </script>
 </body>
