@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charles Schwebs - Digital Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
     <style>
         :root {
             --primary-color: #795548; /* Muted Brown */
@@ -16,6 +20,9 @@
             --shadow-color: rgba(0, 0, 0, 0.15);
             --accent-color: #a1887f; /* Slightly lighter muted brown */
             --header-bg: #5d4037; /* Darker Muted Brown for header */
+            --progress-bar-bg: #d7ccc8; /* Light gray-brown for skill bars */
+            --form-border-color: #a1887f; /* Accent for form inputs */
+            --form-focus-color: #795548; /* Primary for focus */
         }
 
         body {
@@ -26,8 +33,10 @@
             color: var(--text-color);
             line-height: 1.7;
             scroll-behavior: smooth;
+            overflow-x: hidden; /* Prevent horizontal scroll from animations */
         }
 
+        /* --- Header --- */
         header {
             background-color: var(--header-bg);
             color: var(--white-color);
@@ -85,6 +94,7 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
+        /* --- Main Container --- */
         .container {
             max-width: 1200px;
             margin: 140px auto 30px auto; /* Adjust margin-top for fixed header */
@@ -98,6 +108,15 @@
         section {
             padding: 50px 0;
             border-bottom: 1px dashed var(--border-color);
+            position: relative; /* For scroll reveal */
+            opacity: 0; /* Default hidden for animation */
+            transform: translateY(20px); /* Default position for animation */
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         section:last-of-type {
@@ -124,7 +143,7 @@
             border-radius: 2px;
         }
 
-        .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, .achievement-item {
+        .profile-summary, .education-item, .experience-item, .skill-category, .award-item, .volunteer-item, .achievement-item, .project-card, .testimonial-card, .code-snippet-card, .service-description, .contact-form-container {
             margin-bottom: 35px;
             padding: 25px;
             background-color: var(--secondary-color);
@@ -134,7 +153,7 @@
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .profile-summary:hover, .education-item:hover, .experience-item:hover, .skill-category:hover, .project-item:hover, .award-item:hover, .volunteer-item:hover, .achievement-item:hover {
+        .profile-summary:hover, .education-item:hover, .experience-item:hover, .skill-category:hover, .award-item:hover, .volunteer-item:hover, .achievement-item:hover, .project-card:hover, .testimonial-card:hover, .code-snippet-card:hover, .service-description:hover, .contact-form-container:hover {
             transform: translateY(-8px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
@@ -146,7 +165,7 @@
             color: var(--light-text-color);
         }
 
-        .education-item h3, .experience-item h3, .project-item h3, .achievement-item h3 {
+        .education-item h3, .experience-item h3, .achievement-item h3, .project-card h3, .code-snippet-card h3 {
             margin-top: 0;
             color: var(--text-color);
             font-family: 'Playfair Display', serif;
@@ -161,8 +180,7 @@
             font-size: 1.05rem;
         }
 
-
-        .education-item p, .experience-item p, .project-item p {
+        .education-item p, .experience-item p, .project-card p, .code-snippet-card p {
             margin: 8px 0;
             color: var(--light-text-color);
             font-size: 1.05rem;
@@ -177,28 +195,32 @@
             padding-bottom: 5px;
         }
 
-        .education-item ul, .experience-item ul {
+        .education-item ul, .experience-item ul, .project-card ul {
             list-style: none;
             padding: 0;
             margin-top: 10px;
         }
 
-        .education-item ul li, .experience-item ul li {
+        .education-item ul li, .experience-item ul li, .project-card ul li, .service-description ul li {
             position: relative;
             padding-left: 25px;
             margin-bottom: 8px;
             color: var(--light-text-color);
         }
 
-        .education-item ul li::before, .experience-item ul li::before {
-            content: '⛏️'; /* Archaeology themed bullet */
+        /* Replaced pickaxe with simpler bullet */
+        .education-item ul li::before, .experience-item ul li::before, .project-card ul li::before, .service-description ul li::before {
+            content: '•';
             position: absolute;
             left: 0;
             color: var(--primary-color);
-            font-size: 1.2rem;
-            line-height: 1;
+            font-size: 1.8rem; /* Larger dot */
+            line-height: 0.8; /* Adjust vertical alignment */
+            top: 50%;
+            transform: translateY(-50%);
         }
 
+        /* --- Skills Grid & Progress Bars --- */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -227,15 +249,415 @@
             color: var(--light-text-color);
         }
 
+        /* Replaced temple with simpler bullet */
         .skill-category ul li::before {
-            content: '🏛️'; /* Archaeology themed bullet */
+            content: '•';
             color: var(--primary-color);
             font-weight: bold;
             position: absolute;
             left: 0;
-            font-size: 1.3rem;
+            font-size: 1.8rem; /* Larger dot */
+            line-height: 0.8;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
+        /* Skill Progress Bars */
+        .skill-item {
+            margin-bottom: 20px;
+        }
+        .skill-item p {
+            margin: 0 0 8px 0;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        .progress-bar-container {
+            background-color: var(--progress-bar-bg);
+            border-radius: 5px;
+            height: 15px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .progress-bar-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%; /* Initial width for animation */
+            border-radius: 5px;
+            transition: width 1.5s ease-out;
+            position: relative;
+        }
+        .progress-bar-fill::after {
+            content: attr(data-level); /* Display proficiency level */
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--white-color);
+            font-size: 0.8em;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+            white-space: nowrap;
+        }
+
+        /* --- Projects Section --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+        .project-card {
+            background-color: var(--secondary-color);
+            border-left: 6px solid var(--accent-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between; /* Pushes button to bottom */
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+        }
+        .project-card h3 {
+            color: var(--primary-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .project-card .project-media {
+            width: 100%;
+            height: 200px; /* Fixed height for consistency */
+            background-color: #ccc; /* Placeholder background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            font-style: italic;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        .project-card .project-media img,
+        .project-card .project-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .project-card .project-media .overlay-text {
+            position: absolute;
+            background-color: rgba(0,0,0,0.6);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .project-card p {
+            font-size: 1rem;
+            color: var(--light-text-color);
+            flex-grow: 1; /* Allows description to take up available space */
+        }
+        .project-card .project-tags {
+            margin-top: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .project-card .tag {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .project-card .project-link {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 8px 15px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
+            align-self: flex-start; /* Aligns button to the left */
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .project-card .project-link:hover {
+            background-color: var(--text-color);
+            transform: translateY(-2px);
+        }
+
+        /* --- Testimonial Slider --- */
+        .testimonials-slider {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary-color);
+            padding: 20px;
+        }
+        .testimonials-wrapper {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .testimonial-card {
+            min-width: 100%;
+            box-sizing: border-box;
+            background-color: var(--white-color);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-left: 5px solid var(--primary-color);
+        }
+        .testimonial-card p {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            color: var(--light-text-color);
+        }
+        .testimonial-card .author {
+            font-weight: bold;
+            color: var(--text-color);
+            font-size: 1.05rem;
+        }
+        .testimonial-card .author span {
+            display: block;
+            font-size: 0.9em;
+            color: var(--primary-color);
+            font-weight: normal;
+        }
+        .slider-nav {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .slider-dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: var(--border-color);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .slider-dot.active {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+
+        /* --- Code Showcase Section --- */
+        .code-snippet-card {
+            background-color: var(--secondary-color);
+            border-left: 6px solid var(--accent-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .code-snippet-card h3 {
+            color: var(--primary-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .code-snippet-card pre {
+            background-color: #282c34; /* Atom One Dark background */
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 15px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .code-snippet-card code {
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Modern monospace font */
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #abb2bf; /* Default text color for Atom One Dark */
+            white-space: pre; /* Ensure proper spacing */
+        }
+        /* Highlight.js overrides for better integration if needed */
+        .hljs {
+            background: #282c34 !important;
+            color: #abb2bf !important;
+        }
+
+
+        /* --- Services Section - Responsive Visualizer --- */
+        .service-description {
+            position: relative;
+            overflow: hidden;
+        }
+        .responsive-demo-container {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 30px auto;
+            border: 5px solid var(--primary-color);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            background-color: var(--white-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.5s ease-in-out;
+        }
+
+        .responsive-demo-inner {
+            background-color: var(--accent-color);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--white-color);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .responsive-demo-inner span {
+            font-size: 0.8em;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* Responsive animation */
+        .responsive-demo-container.animate-responsive {
+            animation: responsiveResize 4s infinite alternate;
+        }
+
+        @keyframes responsiveResize {
+            0% {
+                width: 400px;
+                height: 250px;
+                border-radius: 15px;
+            }
+            33% {
+                width: 280px; /* Tablet size */
+                height: 400px;
+                border-radius: 10px;
+            }
+            66% {
+                width: 180px; /* Mobile size */
+                height: 300px;
+                border-radius: 8px;
+            }
+            100% {
+                width: 400px;
+                height: 250px;
+                border-radius: 15px;
+            }
+        }
+        @media (max-width: 480px) {
+            .responsive-demo-container.animate-responsive {
+                animation: none; /* Disable animation on very small screens to avoid jumpiness */
+                width: 90% !important; /* Ensure it still looks good */
+                height: 200px !important;
+            }
+            .responsive-demo-container {
+                width: 90%;
+                height: 200px;
+            }
+            .responsive-demo-inner {
+                font-size: 1.2rem;
+            }
+        }
+
+
+        /* --- Contact Form --- */
+        .contact-form-container {
+            background-color: var(--secondary-color);
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            border-left: 6px solid var(--primary-color);
+        }
+
+        .contact-form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .contact-form-container input[type="text"],
+        .contact-form-container input[type="email"],
+        .contact-form-container textarea {
+            width: calc(100% - 20px);
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid var(--form-border-color);
+            border-radius: 8px;
+            font-family: 'Merriweather', serif;
+            font-size: 1rem;
+            box-sizing: border-box; /* Include padding in width */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            background-color: var(--white-color);
+        }
+
+        .contact-form-container input[type="text"]:focus,
+        .contact-form-container input[type="email"]:focus,
+        .contact-form-container textarea:focus {
+            outline: none;
+            border-color: var(--form-focus-color);
+            box-shadow: 0 0 0 3px rgba(121, 85, 72, 0.2); /* Primary color with transparency */
+        }
+
+        .contact-form-container textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form-container button {
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            width: auto;
+            display: block;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .contact-form-container button:hover {
+            background-color: var(--text-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .contact-form-container .error-message {
+            color: #d32f2f; /* Red for errors */
+            font-size: 0.9em;
+            margin-top: -15px;
+            margin-bottom: 10px;
+            display: none; /* Hidden by default */
+        }
+        .contact-form-container input:invalid:not(:placeholder-shown),
+        .contact-form-container textarea:invalid:not(:placeholder-shown) {
+            border-color: #d32f2f;
+        }
+
+
+        /* --- Contact Info --- */
         .contact-info {
             text-align: center;
             margin-top: 40px;
@@ -317,61 +739,13 @@
         /* Page specific content hiding */
         .page-content {
             display: none;
-            animation: fadeIn 0.8s ease-out;
+            /* animation handled by JS now */
         }
         .page-content.active {
             display: block;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Specific styles for "My Services" page */
-        #my-services .service-description {
-            padding: 30px;
-            background-color: var(--secondary-color);
-            border-left: 6px solid var(--primary-color);
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-
-        #my-services .service-description h3 {
-            color: var(--text-color);
-            font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            margin-top: 0;
-            border-bottom: 1px solid var(--accent-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        #my-services .service-description p {
-            color: var(--light-text-color);
-            font-size: 1.1rem;
-            margin-bottom: 15px;
-        }
-        #my-services .service-description ul {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        #my-services .service-description ul li {
-            position: relative;
-            padding-left: 35px;
-            margin-bottom: 12px;
-            color: var(--light-text-color);
-            font-size: 1.05rem;
-        }
-        #my-services .service-description ul li::before {
-            content: '✨'; /* Sparkle bullet */
-            position: absolute;
-            left: 0;
-            font-size: 1.5rem;
-            line-height: 1;
-            color: var(--primary-color);
-        }
+        /* Call to Action Button */
         .cta-button {
             display: inline-block;
             background-color: var(--primary-color);
@@ -403,6 +777,130 @@
             display: block;
         }
 
+        /* Animated Background for Home Section */
+        #home {
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px; /* Adjust padding to make space for animated elements */
+            padding-bottom: 80px;
+        }
+
+        .bg-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+            opacity: 0.1; /* Subtler background */
+        }
+
+        .bg-animation li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(121, 85, 72, 0.7); /* Primary color with transparency */
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+            border-radius: 50%; /* Make them circles */
+        }
+
+        .bg-animation li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .bg-animation li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .bg-animation li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .bg-animation li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .bg-animation li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .bg-animation li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .bg-animation li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .bg-animation li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .bg-animation li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Content over animation */
+        #home > *:not(.bg-animation) {
+            position: relative;
+            z-index: 1;
+        }
 
         /* Responsive Design */
         @media (max-width: 992px) {
@@ -430,6 +928,9 @@
             }
             #home .dynamic-text {
                 font-size: 1.6rem;
+            }
+            .projects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             }
         }
 
@@ -461,7 +962,7 @@
                 font-size: 2.2rem;
                 margin-bottom: 30px;
             }
-            .education-item h3, .experience-item h3, .project-item h3, .achievement-item h3 {
+            .education-item h3, .experience-item h3, .achievement-item h3, .project-card h3, .code-snippet-card h3 {
                 font-size: 1.5rem;
             }
             .skill-category h4 {
@@ -472,6 +973,17 @@
             }
             #home .dynamic-text {
                 font-size: 1.4rem;
+            }
+            .project-card .project-media {
+                height: 180px;
+            }
+            .contact-form-container {
+                padding: 25px;
+            }
+            .contact-form-container input[type="text"],
+            .contact-form-container input[type="email"],
+            .contact-form-container textarea {
+                width: calc(100% - 10px); /* Adjust padding */
             }
         }
 
@@ -486,10 +998,10 @@
             h2 {
                 font-size: 1.8rem;
             }
-            .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, #my-services .service-description, .achievement-item {
+            .profile-summary, .education-item, .experience-item, .skill-category, .award-item, .volunteer-item, .service-description, .achievement-item, .project-card, .testimonial-card, .code-snippet-card, .contact-form-container {
                 padding: 18px;
             }
-            .education-item ul li::before, .experience-item ul li::before, .skill-category ul li::before, #my-services .service-description ul li::before {
+            .education-item ul li::before, .experience-item ul li::before, .skill-category ul li::before, .service-description ul li::before {
                 font-size: 1rem;
             }
             .contact-info {
@@ -498,9 +1010,11 @@
             #home .dynamic-text {
                 font-size: 1.2rem;
             }
+            .project-card .project-media {
+                height: 150px;
+            }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -511,9 +1025,12 @@
                 <li><a href="#education" class="nav-link" data-page="education">Education</a></li>
                 <li><a href="#experience" class="nav-link" data-page="experience">Experience</a></li>
                 <li><a href="#skills" class="nav-link" data-page="skills">Skills</a></li>
+                <li><a href="#code-showcase" class="nav-link" data-page="code-showcase">Code</a></li>
+                <li><a href="#projects" class="nav-link" data-page="projects">Projects</a></li>
                 <li><a href="#achievements" class="nav-link" data-page="achievements">Key Achievements</a></li>
                 <li><a href="#awards" class="nav-link" data-page="awards">Awards</a></li>
                 <li><a href="#volunteer" class="nav-link" data-page="volunteer">Volunteer</a></li>
+                <li><a href="#testimonials" class="nav-link" data-page="testimonials">Testimonials</a></li>
                 <li><a href="#interests" class="nav-link" data-page="interests">Interests</a></li>
                 <li><a href="#my-services" class="nav-link" data-page="my-services">My Services</a></li>
                 <li><a href="#contact" class="nav-link" data-page="contact">Contact</a></li>
@@ -523,6 +1040,9 @@
 
     <div class="container">
         <section id="home" class="page-content active">
+            <ul class="bg-animation">
+                <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+            </ul>
             <h2>About Charles</h2>
             <div class="profile-summary">
                 <p>Hello! I'm Charles Schwebs, an innovative and versatile professional passionate about the intersection of **archaeology, AI integration, curation, history, and conservation**. My work focuses on bridging historical studies with cutting-edge technology, particularly in areas like **Black Box AI, LiDAR, forensics, geo-forensics, and Structure from Motion (SfM)**. I'm dedicated to developing AI solutions for digital humanities, archaeological analysis, and publishing workflows.</p>
@@ -618,6 +1138,7 @@
                 <ul>
                     <li>Managed fast-paced golf cart operations for club members.</li>
                     <li>Maintained reservation systems for cart availability.</li>
+                <li>Ensured excellent customer service and operational efficiency.</li>
                 </ul>
             </div>
             <h2>Archaeological Experience</h2>
@@ -637,51 +1158,105 @@
             <div class="skills-grid">
                 <div class="skill-category">
                     <h4>AI & Data Science</h4>
-                    <ul>
-                        <li>AI Development</li>
-                        <li>Data Annotation (NLP)</li>
-                        <li>Predictive Modeling</li>
-                        <li>Pattern Recognition</li>
-                        <li>Data Mining</li>
-                        <li>Black Box AI.</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>AI Development</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Advanced" data-width="85%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Data Annotation (NLP)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Expert" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Predictive Modeling</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Intermediate" data-width="70%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Pattern Recognition</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Advanced" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Data Mining</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Intermediate" data-width="75%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Black Box AI</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Conceptual" data-width="60%"></div></div>
+                    </div>
                 </div>
                 <div class="skill-category">
                     <h4>Digital Archaeology & Visualization</h4>
-                    <ul>
-                        <li>GIS (Beginner)</li>
-                        <li>Reality Capture (Intermediate)</li>
-                        <li>Photogrammetry (Amateur)</li>
-                        <li>LiDAR</li>
-                        <li>Structure from Motion (SfM).</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>GIS</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Beginner" data-width="40%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Reality Capture</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Intermediate" data-width="70%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Photogrammetry</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Amateur" data-width="55%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>LiDAR</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Conceptual" data-width="65%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Structure from Motion (SfM)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Conceptual" data-width="60%"></div></div>
+                    </div>
                 </div>
                 <div class="skill-category">
                     <h4>Forensics & Geo-Forensics</h4>
-                    <ul>
-                        <li>Analytical techniques for historical and modern investigative research.</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>Analytical Techniques</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Advanced" data-width="80%"></div></div>
+                    </div>
                 </div>
                 <div class="skill-category">
                     <h4>Publishing & CMS</h4>
-                    <ul>
-                        <li>ONIX XML (2.1, 3.0-3.2)</li>
-                        <li>CMS for L'Erma di Bretschneider</li>
-                        <li>SmallPDF.</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>ONIX XML (2.1, 3.0-3.2)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Expert" data-width="90%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>CMS for L'Erma di Bretschneider</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Expert" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>SmallPDF</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Expert" data-width="99%"></div></div>
+                    </div>
                 </div>
                 <div class="skill-category">
                     <h4>AI & Content Editing</h4>
-                    <ul>
-                        <li>Kawing (Expert in subtitling and translation timing)</li>
-                        <li>Aialysa's Chatbook & Chaireader (Development & Editing).</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>Kawing (Subtitling/Translation)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Expert" data-width="95%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Aialysa's Chatbook & Chaireader</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Development" data-width="85%"></div></div>
+                    </div>
                 </div>
                 <div class="skill-category">
                     <h4>Programming & Software</h4>
-                    <ul>
-                        <li>Unity (Intermediate).</li>
-                    </ul>
+                    <div class="skill-item">
+                        <p>Unity</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Intermediate" data-width="70%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>HTML & CSS</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Proficient" data-width="80%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>JavaScript (Basic)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Beginner" data-width="50%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <p>Python (Beginner)</p>
+                        <div class="progress-bar-container"><div class="progress-bar-fill" data-level="Beginner" data-width="45%"></div></div>
+                    </div>
                 </div>
             </div>
             <h2>Languages</h2>
@@ -689,6 +1264,143 @@
                 <li>English: Native</li>
                 <li>Italian: Conversational</li>
             </ul>
+        </section>
+
+        <section id="code-showcase" class="page-content">
+            <h2>Code Showcase</h2>
+            <div class="code-snippet-card">
+                <h3>HTML Structure Example</h3>
+                <p>A basic HTML boilerplate demonstrating foundational web structure.</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My Awesome Page&lt;/title&gt;
+    &lt;link rel="stylesheet" href="style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Welcome!&lt;/h1&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+        &lt;p&gt;This is a simple paragraph.&lt;/p&gt;
+        &lt;button id="myButton"&gt;Click Me&lt;/button&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+        &lt;p&gt;&copy; 2025&lt;/p&gt;
+    &lt;/footer&gt;
+    &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </code></pre>
+            </div>
+
+            <div class="code-snippet-card">
+                <h3>Simple JavaScript Function</h3>
+                <p>A basic function to interact with the DOM.</p>
+                <pre><code class="language-javascript">
+document.getElementById('myButton').addEventListener('click', function() {
+    alert('Button was clicked!');
+});
+
+function greetUser(name) {
+    console.log("Hello, " + name + "!");
+}
+
+greetUser("Charles");
+                </code></pre>
+            </div>
+
+            <div class="code-snippet-card">
+                <h3>CSS Variable Usage Example</h3>
+                <p>Demonstrates using CSS variables for consistent theming.</p>
+                <pre><code class="language-css">
+:root {
+    --primary-color: #795548;
+    --text-color: #3e2723;
+    --spacing-unit: 1.5rem;
+}
+
+body {
+    background-color: var(--secondary-color); /* This refers to another defined variable */
+    color: var(--text-color);
+    padding: var(--spacing-unit);
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: calc(var(--spacing-unit) / 2) var(--spacing-unit);
+    border-radius: 5px;
+}
+                </code></pre>
+            </div>
+            </section>
+
+        <section id="projects" class="page-content">
+            <h2>Projects & Innovations</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>AI-Driven Publishing Workflow Optimization</h3>
+                    <div class="project-media">
+                        <span class="overlay-text">Image/Video Placeholder</span>
+                        </div>
+                    <p>Developed and integrated AI tools to streamline various stages of the digital publishing and editorial process for L'Erma di Bretschneider. This involved automating content categorization, enhancing metadata generation, and improving sales insights.</p>
+                    <div class="project-tags">
+                        <span class="tag">AI Integration</span>
+                        <span class="tag">Publishing</span>
+                        <span class="tag">Workflow Automation</span>
+                        <span class="tag">Digital Humanities</span>
+                    </div>
+                    <a href="#" class="project-link" target="_blank">View Details</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Ancient Metal Artifact Stabilization Protocol</h3>
+                    <div class="project-media">
+                        <span class="overlay-text">Image/Video Placeholder</span>
+                    </div>
+                    <p>Specialized in and applied advanced techniques for the on-site stabilization and initial conservation of ancient metal artifacts during the Aventino Minor Project internship in Rome. This work was crucial for preserving historical integrity prior to laboratory analysis.</p>
+                    <div class="project-tags">
+                        <span class="tag">Archaeology</span>
+                        <span class="tag">Conservation</span>
+                        <span class="tag">Fieldwork</span>
+                        <span class="tag">Material Culture</span>
+                    </div>
+                    <a href="#" class="project-link" target="_blank">View Details</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>AI-Powered Library Cataloging System</h3>
+                    <div class="project-media">
+                        <span class="overlay-text">Image/Video Placeholder</span>
+                    </div>
+                    <p>Designed and implemented an innovative AI-driven solution for library cataloging and automation at The American University of Rome. This significantly improved the efficiency of resource management and accessibility for students and faculty.</p>
+                    <div class="project-tags">
+                        <span class="tag">AI Development</span>
+                        <span class="tag">Library Science</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Data Management</span>
+                    </div>
+                    <a href="#" class="project-link" target="_blank">View Details</a>
+                </div>
+
+                <div class="project-card">
+                    <h3>Forensic Geo-Archaeology Research (Upcoming Publication)</h3>
+                    <div class="project-media">
+                        <span class="overlay-text">Image/Video Placeholder</span>
+                    </div>
+                    <p>Conducted advanced research in forensic geo-archaeology, exploring analytical techniques for historical and modern investigative research. This work will be featured in an upcoming academic publication (Spring 2025).</p>
+                    <div class="project-tags">
+                        <span class="tag">Geo-Forensics</span>
+                        <span class="tag">Research</span>
+                        <span class="tag">Archaeology</span>
+                        <span class="tag">Academic Writing</span>
+                    </div>
+                    <a href="#" class="project-link" target="_blank">View Details</a>
+                </div>
+            </div>
         </section>
 
         <section id="achievements" class="page-content">
@@ -707,7 +1419,7 @@
             </div>
             <div class="achievement-item">
                 <h3>Innovative Library Automation</h3>
-                <p>Implemented AI-driven solutions for cataloging and automation in The American University of Rome library, enhancing efficiency in daily operations.</p>
+                <p>Designed and implemented AI-driven solutions for cataloging and automation in The American University of Rome library, enhancing efficiency in daily operations.</p>
             </div>
             <div class="achievement-item">
                 <h3>National Marksmanship Qualifier</h3>
@@ -751,6 +1463,31 @@
             </div>
         </section>
 
+        <section id="testimonials" class="page-content">
+            <h2>What Others Say</h2>
+            <div class="testimonials-slider">
+                <div class="testimonials-wrapper">
+                    <div class="testimonial-card">
+                        <p>"Charles possesses an exceptional blend of historical insight and cutting-edge technological understanding. His work in AI integration for our publishing house has been transformative, significantly improving our efficiency."</p>
+                        <div class="author">Dr. Sofia Bianchi<span>Director of Digital Initiatives, L'Erma di Bretschneider</span></div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"As a Peer Mentor, Charles demonstrated outstanding leadership and empathy. He truly connected with new students, helping them navigate complex academic and social challenges with grace."</p>
+                        <div class="author">Professor Marcus Thorne<span>Head of Archaeology Department, The American University of Rome</span></div>
+                    </div>
+                    <div class="testimonial-card">
+                        <p>"His dedication to the Aventino Minor Project was evident daily. Charles's meticulous approach to artifact stabilization ensured the integrity of our finds, a truly invaluable skill."</p>
+                        <div class="author">Elena Rossi<span>Field Director, Aventino Minor Project</span></div>
+                    </div>
+                </div>
+                <div class="slider-nav">
+                    <span class="slider-dot active" data-slide="0"></span>
+                    <span class="slider-dot" data-slide="1"></span>
+                    <span class="slider-dot" data-slide="2"></span>
+                </div>
+            </div>
+        </section>
+
         <section id="interests" class="page-content">
             <h2>Interests</h2>
             <ul class="interests-list">
@@ -780,8 +1517,15 @@
                 <ul>
                     <li><strong>Custom Design:</strong> A unique and modern aesthetic that reflects your personal brand.</li>
                     <li><strong>Multi-Page Layout:</strong> Organize your information clearly with dedicated sections for education, experience, skills, and more.</li>
-                    <li><strong>Interactive Elements:</strong> Engaging features to make your portfolio stand out.</li>
-                    <li><strong>Responsive Design:</strong> Ensures your website looks great on any device, from desktops to mobile phones.</li>
+                    <li>**Interactive Elements:** Engaging features to make your portfolio stand out.</li>
+                    <li>**Responsive Design:** Ensures your website looks great on any device, from desktops to mobile phones.
+                        <div class="responsive-demo-container animate-responsive">
+                            <div class="responsive-demo-inner">
+                                Responsive Design in Action
+                                <span>(Watch me resize!)</span>
+                            </div>
+                        </div>
+                    </li>
                     <li><strong>SEO Optimization:</strong> Basic optimization to help your site be found by search engines.</li>
                     <li><strong>Integration with Social Media:</strong> Links to your professional networks like LinkedIn.</li>
                     <li><strong>Content Organization:</strong> Assistance in structuring your resume/CV content effectively for web presentation.</li>
@@ -795,6 +1539,26 @@
 
         <section id="contact" class="page-content">
             <h2>Connect With Me</h2>
+            <div class="contact-form-container">
+                <form id="contactForm">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Your Name">
+                    <div class="error-message" id="nameError">Name is required.</div>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+                    <div class="error-message" id="emailError">Please enter a valid email address.</div>
+
+                    <label for="subject">Subject:</label>
+                    <input type="text" id="subject" name="subject" placeholder="Subject of your message">
+
+                    <label for="message">Message:</label>
+                    <textarea id="message" name="message" rows="6" required placeholder="Your message..."></textarea>
+                    <div class="error-message" id="messageError">Message cannot be empty.</div>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
             <div class="contact-info">
                 <p>Phone: <a href="tel:+393445766915">+39 344 576 6915</a></p>
                 <p>Email: <a href="mailto:Cholts2003@gmail.com">Cholts2003@gmail.com</a></p>
@@ -871,6 +1635,29 @@
                 const targetPage = document.getElementById(pageId);
                 if (targetPage) {
                     targetPage.classList.add('active');
+
+                    // Trigger skill bar animation if on skills page
+                    if (pageId === 'skills') {
+                        animateSkillBars();
+                    }
+                    // Trigger testimonial slider reset if on testimonials page
+                    if (pageId === 'testimonials') {
+                        resetTestimonialSlider();
+                    }
+                    // Trigger responsive animation if on services page
+                    if (pageId === 'my-services') {
+                         document.querySelector('.responsive-demo-container').classList.add('animate-responsive');
+                    } else {
+                        // Ensure animation is reset if navigating away
+                        document.querySelector('.responsive-demo-container').classList.remove('animate-responsive');
+                    }
+
+                    // Re-highlight code if on code-showcase page
+                    if (pageId === 'code-showcase') {
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightElement(block);
+                        });
+                    }
                 }
 
                 // Update URL hash
@@ -898,6 +1685,157 @@
                 // Default to home page
                 activatePage('home');
             }
+
+            // --- Skill Bar Animation Logic ---
+            function animateSkillBars() {
+                const skillBars = document.querySelectorAll('.progress-bar-fill');
+                skillBars.forEach(bar => {
+                    const width = bar.dataset.width;
+                    // Reset width to 0% before animating to ensure animation plays on re-entry
+                    bar.style.width = '0%';
+                    // Use a small timeout to allow CSS to register the 0% before animating to full width
+                    setTimeout(() => {
+                        bar.style.width = width;
+                    }, 100);
+                });
+            }
+
+            // --- Scroll Reveal Animation Logic ---
+            const scrollRevealElements = document.querySelectorAll('section.page-content');
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        // Do not unobserve, as we want to re-trigger some animations on page re-activation
+                        // observer.unobserve(entry.target);
+                    } else {
+                        // Optional: remove is-visible when not intersecting for repeated animations
+                        // entry.target.classList.remove('is-visible');
+                    }
+                });
+            }, { threshold: 0.1 }); // Trigger when 10% of the element is visible
+
+            // Observe all relevant sections when the DOM content is loaded
+            pageContents.forEach(section => {
+                // Only observe if it's not the currently active section (active section is visible initially)
+                if (!section.classList.contains('active')) {
+                    observer.observe(section);
+                } else {
+                    // For the initially active section, ensure it's visible
+                    section.classList.add('is-visible');
+                    // If skills page is active on load, animate bars
+                    if (section.id === 'skills') {
+                        animateSkillBars();
+                    }
+                     if (section.id === 'testimonials') {
+                        resetTestimonialSlider();
+                    }
+                    if (section.id === 'my-services') {
+                        document.querySelector('.responsive-demo-container').classList.add('animate-responsive');
+                    }
+                    if (section.id === 'code-showcase') {
+                        document.querySelectorAll('pre code').forEach((block) => {
+                            hljs.highlightElement(block);
+                        });
+                    }
+                }
+            });
+
+
+            // --- Testimonial Slider Logic ---
+            const testimonialsWrapper = document.querySelector('.testimonials-wrapper');
+            const testimonialCards = document.querySelectorAll('.testimonial-card');
+            const sliderDots = document.querySelectorAll('.slider-dot');
+            let currentSlide = 0;
+
+            function updateSlider() {
+                const offset = -currentSlide * 100;
+                testimonialsWrapper.style.transform = `translateX(${offset}%)`;
+
+                sliderDots.forEach((dot, index) => {
+                    if (index === currentSlide) {
+                        dot.classList.add('active');
+                    } else {
+                        dot.classList.remove('active');
+                    }
+                });
+            }
+
+            sliderDots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    currentSlide = parseInt(e.target.dataset.slide);
+                    updateSlider();
+                });
+            });
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % testimonialCards.length;
+                updateSlider();
+            }
+
+            let slideInterval = setInterval(nextSlide, 5000); // Auto-advance every 5 seconds
+
+            // Pause/resume on hover
+            testimonialsWrapper.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            testimonialsWrapper.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(nextSlide, 5000);
+            });
+
+            function resetTestimonialSlider() {
+                currentSlide = 0;
+                updateSlider();
+                clearInterval(slideInterval);
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            // --- Contact Form Validation Logic ---
+            const contactForm = document.getElementById('contactForm');
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const messageInput = document.getElementById('message');
+
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+            const messageError = document.getElementById('messageError');
+
+            const validateField = (inputElement, errorElement, validationFn) => {
+                if (validationFn(inputElement.value)) {
+                    errorElement.style.display = 'none';
+                    inputElement.classList.remove('invalid');
+                    return true;
+                } else {
+                    errorElement.style.display = 'block';
+                    inputElement.classList.add('invalid');
+                    return false;
+                }
+            };
+
+            const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            const isNotEmpty = (value) => value.trim() !== '';
+
+            nameInput.addEventListener('input', () => validateField(nameInput, nameError, isNotEmpty));
+            emailInput.addEventListener('input', () => validateField(emailInput, emailError, isValidEmail));
+            messageInput.addEventListener('input', () => validateField(messageInput, messageError, isNotEmpty));
+
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent default form submission
+
+                const isNameValid = validateField(nameInput, nameError, isNotEmpty);
+                const isEmailValid = validateField(emailInput, emailError, isValidEmail);
+                const isMessageValid = validateField(messageInput, messageError, isNotEmpty);
+
+                if (isNameValid && isEmailValid && isMessageValid) {
+                    // In a real application, you'd send this data to a server here.
+                    // For a client-side only demo, we just show an alert.
+                    alert('Message sent successfully! (This is a demo, no actual email was sent.)');
+                    contactForm.reset(); // Clear the form
+                    // Optionally, navigate back to home or show a success message
+                    activatePage('home');
+                } else {
+                    alert('Please fill in all required fields correctly.');
+                }
+            });
         });
     </script>
 </body>
