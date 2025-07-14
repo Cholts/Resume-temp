@@ -124,7 +124,7 @@
             border-radius: 2px;
         }
 
-        .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item {
+        .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, .achievement-item {
             margin-bottom: 35px;
             padding: 25px;
             background-color: var(--secondary-color);
@@ -134,7 +134,7 @@
             transition: transform 0.4s ease, box-shadow 0.4s ease;
         }
 
-        .profile-summary:hover, .education-item:hover, .experience-item:hover, .skill-category:hover, .project-item:hover, .award-item:hover, .volunteer-item:hover {
+        .profile-summary:hover, .education-item:hover, .experience-item:hover, .skill-category:hover, .project-item:hover, .award-item:hover, .volunteer-item:hover, .achievement-item:hover {
             transform: translateY(-8px);
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
@@ -146,7 +146,7 @@
             color: var(--light-text-color);
         }
 
-        .education-item h3, .experience-item h3, .project-item h3 {
+        .education-item h3, .experience-item h3, .project-item h3, .achievement-item h3 {
             margin-top: 0;
             color: var(--text-color);
             font-family: 'Playfair Display', serif;
@@ -155,6 +155,12 @@
             padding-bottom: 10px;
             margin-bottom: 15px;
         }
+        .achievement-item p {
+            margin: 8px 0;
+            color: var(--light-text-color);
+            font-size: 1.05rem;
+        }
+
 
         .education-item p, .experience-item p, .project-item p {
             margin: 8px 0;
@@ -366,6 +372,37 @@
             line-height: 1;
             color: var(--primary-color);
         }
+        .cta-button {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white-color);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            background-color: var(--text-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        /* Home page dynamic text */
+        #home .dynamic-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-top: 20px;
+            text-align: center;
+            min-height: 2.2em; /* Ensure consistent height */
+            display: block;
+        }
+
 
         /* Responsive Design */
         @media (max-width: 992px) {
@@ -390,6 +427,9 @@
             }
             .skills-grid {
                 grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            }
+            #home .dynamic-text {
+                font-size: 1.6rem;
             }
         }
 
@@ -421,7 +461,7 @@
                 font-size: 2.2rem;
                 margin-bottom: 30px;
             }
-            .education-item h3, .experience-item h3, .project-item h3 {
+            .education-item h3, .experience-item h3, .project-item h3, .achievement-item h3 {
                 font-size: 1.5rem;
             }
             .skill-category h4 {
@@ -429,6 +469,9 @@
             }
             .social-links a {
                 font-size: 2.5rem;
+            }
+            #home .dynamic-text {
+                font-size: 1.4rem;
             }
         }
 
@@ -443,7 +486,7 @@
             h2 {
                 font-size: 1.8rem;
             }
-            .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, #my-services .service-description {
+            .profile-summary, .education-item, .experience-item, .skill-category, .project-item, .award-item, .volunteer-item, #my-services .service-description, .achievement-item {
                 padding: 18px;
             }
             .education-item ul li::before, .experience-item ul li::before, .skill-category ul li::before, #my-services .service-description ul li::before {
@@ -451,6 +494,9 @@
             }
             .contact-info {
                 font-size: 1rem;
+            }
+            #home .dynamic-text {
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -465,7 +511,7 @@
                 <li><a href="#education" class="nav-link" data-page="education">Education</a></li>
                 <li><a href="#experience" class="nav-link" data-page="experience">Experience</a></li>
                 <li><a href="#skills" class="nav-link" data-page="skills">Skills</a></li>
-                <li><a href="#projects" class="nav-link" data-page="projects">Projects & Publications</a></li>
+                <li><a href="#achievements" class="nav-link" data-page="achievements">Key Achievements</a></li>
                 <li><a href="#awards" class="nav-link" data-page="awards">Awards</a></li>
                 <li><a href="#volunteer" class="nav-link" data-page="volunteer">Volunteer</a></li>
                 <li><a href="#interests" class="nav-link" data-page="interests">Interests</a></li>
@@ -477,9 +523,11 @@
 
     <div class="container">
         <section id="home" class="page-content active">
-            <h2>Professional Summary</h2>
+            <h2>About Charles</h2>
             <div class="profile-summary">
-                <p>Innovative and versatile professional with a strong background in archaeology, AI integration, curation, history, and conservation. Passionate about the intersection of technology and historical studies, with a deep interest in Black Box AI, LiDAR, forensics, geo-forensics, and Structure from Motion (SfM) technology. Continuously developing AI solutions for publishing, digital humanities, and archaeological analysis. Possesses leadership experience, technical proficiency, and a passion for bridging historical studies with modern technology. Skilled in independent research, team collaboration, and project management. Seeking opportunities to further develop expertise in archaeology, AI, and digital humanities while refining leadership abilities.</p>
+                <p>Hello! I'm Charles Schwebs, an innovative and versatile professional passionate about the intersection of **archaeology, AI integration, curation, history, and conservation**. My work focuses on bridging historical studies with cutting-edge technology, particularly in areas like **Black Box AI, LiDAR, forensics, geo-forensics, and Structure from Motion (SfM)**. I'm dedicated to developing AI solutions for digital humanities, archaeological analysis, and publishing workflows.</p>
+                <p>With experience in leadership, technical proficiency, and a collaborative spirit, I thrive on independent research and effective project management. I'm constantly seeking opportunities to expand my expertise and refine my leadership abilities in these dynamic fields.</p>
+                <span class="dynamic-text" id="dynamic-text"></span>
             </div>
         </section>
 
@@ -537,6 +585,9 @@
                     <li>Assisted students with presentation and research techniques.</li>
                     <li>Facilitated conflict resolution between students and faculty.</li>
                 </ul>
+            </div>
+            <div class="experience-item">
+                <h3>The American University of Rome</h3>
                 <p><strong>Librarian</strong></p>
                 <ul>
                     <li>Managed daily library operations, including closing procedures.</li>
@@ -640,23 +691,27 @@
             </ul>
         </section>
 
-        <section id="projects" class="page-content">
-            <h2>Publishing & Editorial Work</h2>
-            <div class="project-item">
-                <h3>Codex, Vol. 5 (2024)</h3>
-                <p>Error checking & review.</p>
+        <section id="achievements" class="page-content">
+            <h2>Key Achievements</h2>
+            <div class="achievement-item">
+                <h3>AI Integration in Publishing</h3>
+                <p>Spearheaded the integration of AI solutions for digital publishing and editorial processes at L'Erma di Bretschneider, significantly streamlining content management and sales workflows.</p>
             </div>
-            <div class="project-item">
-                <h3>Orientalia Antiqua et Nova, Vol. 1 (2024)</h3>
-                <p>Assisted in editing.</p>
+            <div class="achievement-item">
+                <h3>Artifact Conservation Specialization</h3>
+                <p>Developed specialized skills in stabilizing ancient metal artifacts during the Aventino Minor Project internship, contributing to the preservation of invaluable historical items.</p>
             </div>
-            <div class="project-item">
-                <h3>Foro Romano Palatino - Scavi e ricerche, Vol. I (2023)</h3>
-                <p>Editorial review.</p>
+            <div class="achievement-item">
+                <h3>Leadership & Mentorship</h3>
+                <p>Guided over 20 incoming freshmen as a Peer Mentor Leader at The American University of Rome, facilitating their academic and cultural integration and enhancing their presentation and research techniques.</p>
             </div>
-            <div class="project-item">
-                <h3>ENG Secondary Roads of Ancient Italy: Rome, Monuments, Territory</h3>
-                <p>Assisted in production.</p>
+            <div class="achievement-item">
+                <h3>Innovative Library Automation</h3>
+                <p>Implemented AI-driven solutions for cataloging and automation in The American University of Rome library, enhancing efficiency in daily operations.</p>
+            </div>
+            <div class="achievement-item">
+                <h3>National Marksmanship Qualifier</h3>
+                <p>Achieved state championships annually and qualified for the 4-H Air Rifle National Championships twice, demonstrating dedication, precision, and competitive excellence.</p>
             </div>
         </section>
 
@@ -717,14 +772,14 @@
         </section>
 
         <section id="my-services" class="page-content">
-            <h2>My Services: Professional Digital Portfolios</h2>
+            <h2>Services Offered: Crafting Your Digital Presence</h2>
             <div class="service-description">
                 <h3>Showcase Your Skills with a Custom Website!</h3>
                 <p>Are you looking for a dynamic and professional way to present your skills, experience, and projects to the world? Just like this website, I specialize in creating bespoke digital portfolios tailored to your unique needs. Whether you're a recent graduate, a seasoned professional, or a creative individual, a well-designed personal website can significantly enhance your online presence and open new opportunities.</p>
                 <p>My service includes:</p>
                 <ul>
                     <li><strong>Custom Design:</strong> A unique and modern aesthetic that reflects your personal brand.</li>
-                    <li><strong>Multi-Page Layout:</strong> Organize your information clearly with dedicated sections for education, experience, skills, projects, and more.</li>
+                    <li><strong>Multi-Page Layout:</strong> Organize your information clearly with dedicated sections for education, experience, skills, and more.</li>
                     <li><strong>Interactive Elements:</strong> Engaging features to make your portfolio stand out.</li>
                     <li><strong>Responsive Design:</strong> Ensures your website looks great on any device, from desktops to mobile phones.</li>
                     <li><strong>SEO Optimization:</strong> Basic optimization to help your site be found by search engines.</li>
@@ -732,6 +787,9 @@
                     <li><strong>Content Organization:</strong> Assistance in structuring your resume/CV content effectively for web presentation.</li>
                 </ul>
                 <p>Let's collaborate to transform your traditional resume into an interactive and impressive digital experience. Contact me today to discuss how I can help you create a powerful online showcase for your talents!</p>
+                <div style="text-align: center;">
+                    <a href="#contact" class="cta-button nav-link" data-page="contact">Get a Custom Portfolio</a>
+                </div>
             </div>
         </section>
 
@@ -755,6 +813,47 @@
         document.addEventListener('DOMContentLoaded', () => {
             const navLinks = document.querySelectorAll('.nav-link');
             const pageContents = document.querySelectorAll('.page-content');
+            const dynamicTextElement = document.getElementById('dynamic-text');
+            const phrases = [
+                "Archaeology Enthusiast",
+                "AI Integration Specialist",
+                "Digital Humanities Innovator",
+                "Forensic Geo-Archaeologist",
+                "Conservation Advocate",
+                "Technology & History Bridger"
+            ];
+            let phraseIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+            let typingSpeed = 100; // Milliseconds per character
+            let deletingSpeed = 50; // Milliseconds per character
+            let pauseTime = 1500; // Pause after typing/deleting
+
+            function typeWriter() {
+                const currentPhrase = phrases[phraseIndex];
+                if (isDeleting) {
+                    dynamicTextElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    dynamicTextElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let speed = isDeleting ? deletingSpeed : typingSpeed;
+
+                if (!isDeleting && charIndex === currentPhrase.length) {
+                    speed = pauseTime;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    phraseIndex = (phraseIndex + 1) % phrases.length;
+                    speed = typingSpeed;
+                }
+
+                setTimeout(typeWriter, speed);
+            }
+
+            typeWriter(); // Start the typing effect
 
             const activatePage = (pageId) => {
                 // Remove active class from all nav links
@@ -796,20 +895,9 @@
             if (initialHash) {
                 activatePage(initialHash);
             } else {
-                // Default to home page if no hash
+                // Default to home page
                 activatePage('home');
             }
-
-            // Optional: Smooth scroll for internal links not handled by the page switcher
-            document.querySelectorAll('a[href^="#"]:not(.nav-link)').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    e.preventDefault();
-
-                    document.querySelector(this.getAttribute('href')).scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                });
-            });
         });
     </script>
 </body>
